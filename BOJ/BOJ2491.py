@@ -21,22 +21,5 @@
 
 N = int(input()) #수열의 길이
 num_list = input().split()  # 1, 2, 2, 4, 4, 5, 7, 7, 2 
-# max_length = 0
-# length = 0
-# less_idx = 0
-# for idx in range(len(num_list)-1):
-#     if num_list[idx+1] >= num_list[idx] :
-#         length += 1
-#     else : 
-#         less_idx = idx
-
-# max_length = max(max_length, length)
-
-# length = 0
-# for idx in range(len(num_list)-1, -1, -1):
-#     if num_list[idx-1] >= num_list[idx] :
-#         length += 1
-#     else : 
-#         less_idx = idx
-
-# print(f'max_length : {max_length}, length:{length}, less_idx:{less_idx}')
+max_length = 0
+length = 0
