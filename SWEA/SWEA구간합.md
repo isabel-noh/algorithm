@@ -1,5 +1,5 @@
 # SWEA 구간합
-[SWEA 구간합](https://swexpertacademy.com/main/learn/course/lectureProblemViewer.do#none)
+[SWEA 구간합](learn-course-programming intermidate-파이썬 List1)
 
 N개의 정수가 들어있는 배열에서 이웃한 M개의 합을 계산하는 문제이다. 
 처음에 아래와 같이 풀었을 때는 계속 메모리 에러가 발생하였다. 
