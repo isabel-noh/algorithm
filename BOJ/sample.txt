@@ -1,8 +1,14 @@
-7
-A B C
-B D .
-C E F
-E . .
-F . G
-D . .
-G . .
+13
+but
+i
+wont
+hesitate
+no
+more
+no
+more
+it
+cannot
+wait
+im
+yours
