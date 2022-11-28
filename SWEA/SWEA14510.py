@@ -14,3 +14,24 @@
 # 출력
 # 출력의 각 줄은 ‘#x’로 시작하고, 공백을 한 칸 둔 다음 가능한 최소 날짜 수를 출력한다. 단, x는 테스트 케이스의 번호이다.
  
+import sys
+sys.stdin = open('sample.txt')
+
+T = int(input())
+for tc in range(1, T+1) :
+    N = int(input())
+    arr = list(map(int, input().split() ))
+    max_length = max(arr)
+    result = 0
+    while True:
+        # 모든 나무길이가 max_length와 같아지면 break
+        flag = True
+        for i in arr:
+            if i != max_length:
+                flag = False
+                break
+        if flag  == True:
+            break
+        
+        
+    print(f'#{tc} {result}')
