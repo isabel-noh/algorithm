@@ -25,7 +25,11 @@ sys.stdin = open('sample.txt')
 input = sys.stdin.readline
 N, M = map(int, input().split())
 superior = list(map(int, input().split()))
-praises = []
+praises = {}
 for m in range(M):
-    praises.append(list(map(int, input().split())))
-print(praises)
+    a, b = map(int, input().split())
+    if praises.get(a):
+        praises.get(a)
+    else:
+        praises[a] = b
+    # praises.append(list(map(int, input().split())))
