@@ -1,5 +1,5 @@
 # BOJ 2805 나무자르기
-# ![](https://www.acmicpc.net/problem/2805)
+# ![BOJ 2805 나무자르기](https://www.acmicpc.net/problem/2805)
 
 # 문제
 # 상근이는 나무 M미터가 필요하다. 근처에 나무를 구입할 곳이 모두 망해버렸기 때문에, 정부에 벌목 허가를 요청했다. 정부는 상근이네 집 근처의 나무 한 줄에 대한 벌목 허가를 내주었고, 상근이는 새로 구입한 목재절단기를 이용해서 나무를 구할것이다.
@@ -15,3 +15,27 @@
 
 # 출력
 # 적어도 M미터의 나무를 집에 가져가기 위해서 절단기에 설정할 수 있는 높이의 최댓값을 출력한다.
+
+import sys
+sys.stdin = open('sample.txt')
+
+N, M = map(int, input().split()) # N = len(arr)
+arr = list(map(int, input().split()))
+
+def find_result(h) :
+    global M
+    res = 0
+    print('h', h)
+    for i in arr:
+        # 나무에서 h만큼 자르기고 남은 부분 더하기
+        print('res', res)
+
+    if res >= M :
+        return h
+    return 
+
+for H in range(0, max(arr)+1):
+    a = find_result(H)
+    if a:
+        print(a)
+        break
