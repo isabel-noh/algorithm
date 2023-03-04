@@ -18,23 +18,28 @@
 import sys
 sys.stdin = open('sample.txt')
 
+# 완전 탐색 ㄴㄴ - > 시간 초과
 N, M = map(int, input().split()) # N = len(arr)
 arr = list(map(int, input().split()))
 
 def find_result(h) :
     global M
     res = 0
-    print('h', h)
     for i in arr:
-        # 나무에서 h만큼 자르기고 남은 부분 더하기
-        print('res', res)
+        if i >= h: # 원래는 i > h : 이라헸엇을 때는 안됨
+            res += (i - h)
+        
+    return res
 
-    if res >= M :
-        return h
-    return 
+start = 0
+end = max(arr)
 
-for H in range(0, max(arr)+1):
-    a = find_result(H)
-    if a:
-        print(a)
-        break
+while start <= end:
+    mid = (start + end) // 2 
+    r = find_result(mid)
+    if r < M : 
+        end = mid - 1
+    if r >= M : 
+        start = mid + 1
+
+print(end)
