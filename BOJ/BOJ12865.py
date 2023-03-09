@@ -15,17 +15,24 @@
 
 # 출력
 # 한 줄에 배낭에 넣을 수 있는 물건들의 가치합의 최댓값을 출력한다.
-from itertools import combinations
 import sys
 sys.stdin = open('sample.txt')
 
 N, K = map(int, input().split())
-arr = []
+arr = [(0, 0)] * K 
+dp = (([] * (K+1)) for _ in range(N))
+
 for n in range(N):
     w, v = map(int, input().split())
     arr.append((w, v))
 arr.sort()
 result = 0
+print(arr)
 # dp 
+for i in range(N):
+    for j in range(1, K+1):
+        if arr[i][0] <= j:
+        #    dp[i][j] = 
+            pass
 
 print(result)
