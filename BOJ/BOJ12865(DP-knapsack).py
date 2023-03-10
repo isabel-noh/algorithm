@@ -15,24 +15,27 @@
 
 # 출력
 # 한 줄에 배낭에 넣을 수 있는 물건들의 가치합의 최댓값을 출력한다.
+
+#### 문제풀이
+# 가방이 n번째 물건을 포함하고 있지 않다면, n-1번째까지의 최적 값과 같다.
+
+from pprint import pprint
 import sys
 sys.stdin = open('sample.txt')
 
 N, K = map(int, input().split())
-arr = [(0, 0)] * K 
-dp = (([] * (K+1)) for _ in range(N))
-
+arr = []
+dp = [([0] * (K+1)) for _ in range(N)]
 for n in range(N):
     w, v = map(int, input().split())
     arr.append((w, v))
-arr.sort()
 result = 0
-print(arr)
-# dp 
 for i in range(N):
     for j in range(1, K+1):
-        if arr[i][0] <= j:
-        #    dp[i][j] = 
-            pass
-
+        if arr[i][0] <= j: # 현재까지의 가방의 허용 무게보다 작다면 ? i번째 가방을 넣을 수 있음 
+            dp[i][j] = max(dp[i-1][j], dp[i-1][j-arr[i][0]]+arr[i][1])
+        else:
+            dp[i][j] = dp[i-1][j]
+    if result < max(dp[i]):
+        result = max(dp[i])
 print(result)
