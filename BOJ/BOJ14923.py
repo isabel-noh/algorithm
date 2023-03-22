@@ -31,25 +31,27 @@ N, M = map(int, input().split())
 Hx, Hy = map(int, input().split())  # 내 위치
 Ex, Ey = map(int, input().split())  # 탈출 위치
 arr = [list(map(int, input().split())) for _ in range(N)]
-arr[Hx-1][Hy-1] = -1
-arr[Ex-1][Ey-1] = 2
-print(Hx, Hy)
-print(Ex, Ey)
-pprint(arr)
 
+# 마법봉을 사용하는지 안사용하는지를 3차원 배열로 나타낼 수 있다.
+visited = [[[0] * 2 for _ in range(M)] for _ in range(N)]  #(visited[1]: 마법 미사용 전용, visited[0]: 마법 사용 전용)
 def bfs():
+    global visited
     queue = deque()
-    queue.append((Hx, Hy))
+    queue.append((Hx-1, Hy-1, 0 , 1)) # (좌표x, 좌표y, 움직인 거리, 마법봉 가지고 있는지 여부)
+    visited[Hx-1][Hy-1][1] = 1 # 마법미사용 시작지점 표시
     while queue:
-        i, j = queue.popleft()
+        i, j, d, count = queue.popleft()
+        if i == Ex-1 and j == Ey-1:   # 도착지점 도착시 return 
+            return d
+        
         for di, dj in [(1, 0), (0, 1), (-1, 0), (0, -1)]:
             ni, nj = i + di, j + dj
-            if 0 <= ni < N and 0 <= nj < M and visited[ni][nj] == 0:
-                visited[ni][nj] = 1
-                queue.append((ni, nj))
-            if ni == Ex and nj == Ey:
-                return 
+            if 0 <= ni < N and 0 <= nj < M and visited[ni][nj][count] == 0 : # 마법봉을 가지던 안가지던 현재 위치에 방문한적 없는 경우, 
+                visited[ni][nj][count] = d    # 현재 위치 방문처리 
+                if arr[ni][nj] == 1 and count == 1: # 다음 칸이 벽이고, 마법봉 있으면 벽뚫음
+                    queue.append((ni, nj, d+1, 0))
+                if arr[ni][nj] == 0: # 다음 칸이 벽이 아니면, 마법봉 안 쓰고 지나감
+                    queue.append((ni, nj, d+1, count))
+    return -1 # 도착 못하면 -1 return 
 
-cnt = 0
-visited = [[0] * M for _ in range(N)]
-bfs()
+print(bfs())
