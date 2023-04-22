@@ -1,7 +1,5 @@
-4 5
-aaabc
-dcbbc
-dccaa
-ddaaa
-3 4
-WLLLWUURRD
+2
+1
+3
+2
+3
