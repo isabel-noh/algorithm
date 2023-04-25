@@ -1,3 +1,5 @@
+# 못풂 아직
+
 # BOJ 17779 게리맨더링 2
 # ![BOJ 17779 게리맨더링 2](https://www.acmicpc.net/problem/17779)
 
