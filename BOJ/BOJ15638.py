@@ -31,9 +31,63 @@
 # 첫째 줄에 사각 지대의 최소 크기를 출력한다.
 
 # 20
-from pprint import pprint
+from copy import deepcopy
 import sys
 sys.stdin = open('sample.txt')
 
 N, M = map(int, input().split())
 arr = [list(map(int, input().split())) for _ in range(N)]
+result = N * M
+
+dt = [(0, 1), (1, 0), (0, -1), (-1, 0)] 
+cctv = [[[0], [1], [2], [3]], 
+        [[0, 2], [1, 3]], 
+        [[0, 1], [0, 3], [1, 2], [2, 3]], 
+        [[0, 1, 2], [1, 2, 3], [0, 2, 3], [0, 1, 3]], 
+        [[0, 1, 2, 3]]
+    ]
+
+for i in range(N):
+    for j in range(M):
+        if arr[i][j] == 6:  # 사각지대에 벽은 포함되지 않음
+            result -= 1
+
+def check(i, j, dir, temp):
+    for d in dir:
+        ni, nj = i, j
+        while True : 
+            ni, nj = ni + dt[d][0], nj + dt[d][1]
+            if 0 <= ni < N and 0 <= nj < M and temp[ni][nj] != 6:
+                if temp[ni][nj] == 0: # 감시가능
+                    temp[ni][nj] = -1
+            else:
+                break            
+
+
+def dfs(idx, arr):
+    global result
+    t = deepcopy(arr) # 왜 deepcopy?
+    
+    if idx == len(temp):  # 왜 for문 안쓰고 ? 
+        count = 0
+        for i in t:
+            count += i.count(0)  # 사각지대 수
+        if result > count :
+            result = count
+        return 
+    
+    a, b, c = temp[idx]
+    for i in cctv[c-1]:
+        check(a, b, i, t)
+        dfs(idx + 1, t)
+        t = deepcopy(arr)
+
+temp = []
+for i in range(N):
+    for j in range(M):
+        if arr[i][j] in [1, 2, 3, 4, 5]:
+            temp.append((i, j, arr[i][j]))
+
+
+dfs(0, arr) # 시작 인덱스
+print(result)
