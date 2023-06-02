@@ -1,5 +1,6 @@
 // BOJ 11399 ATM
 // [BOJ 11399 ATM](https://www.acmicpc.net/problem/11399)
+
 // 문제
 // 인하은행에는 ATM이 1대밖에 없다. 지금 이 ATM앞에 N명의 사람들이 줄을 서있다. 사람은 1번부터 N번까지 번호가 매겨져 있으며, i번 사람이 돈을 인출하는데 걸리는 시간은 Pi분이다.
 
@@ -14,3 +15,27 @@
 
 // 출력
 // 첫째 줄에 각 사람이 돈을 인출하는데 필요한 시간의 합의 최솟값을 출력한다.
+
+var fs = require("fs");
+var input = fs.readFileSync("/dev/stdin").toString().split("\n");
+
+var N = input[0];
+var arr = input[1].split(" ");
+
+for (let i = 0; i < parseInt(N); i++) {
+  arr[i] = parseInt(arr[i]);
+}
+
+arr.sort((a, b) => a - b); // caution!! sort()는 유니코드 순으로 정렬됨, 값을 비교하려면 sort((a, b) => a - b)로 정렬
+
+var res = 0;
+var result = [];
+for (let i = 0; i < parseInt(N); i++) {
+  let a = arr[i];
+  for (let j = 0; j < i; j++) {
+    a += arr[j];
+  }
+  res += a;
+}
+
+console.log(res);
