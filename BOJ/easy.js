@@ -1,26 +1,22 @@
-let n = 1;
-const range = 10000;
-const arr = Array(range + 1).fill(false);
+// import sys
+// sys.stdin = open('./sample.txt')
 
-function check(num) {
-  let number = num;
-  let result = num;
-  for (let i = 0; i < String(num).length; i++) {
-    // num을 stringfy하고 그 자리수만큼 반복
-    result += number % 10; // number은 for문 돌 때마다 10으로 나눠서 한자리씩 뒤에서부터 줄어듦
-    number = Math.floor(number / 10);
-  }
-  return result; // 매 자리수를 더한 값 + 원래 값
-}
+// def solution(num, a):
+//     dp = [[0] * (num) for _ in range(2)]
+//     for i in range(num):
+//         if i == 0:
+//             dp[0][i], dp[1][i] = a[0][i], a[1][i]
+//         elif i == 1:
+//             dp[0][i] = dp[1][i-1] + arr[0][i]
+//             dp[1][i] = dp[0][i-1] + arr[1][i]
+//         else:
+//             dp[0][i] = arr[0][i] + max(dp[1][i-1], dp[0][i-2], dp[1][i-2])
+//             dp[1][i] = arr[1][i] + max(dp[0][i-1], dp[0][i-2], dp[1][i-2])
+//     result = max(max(dp[0]), max(dp[1]))
+//     return result
 
-while (n <= range) {
-  const res = check(n);
-  arr[res] = true;
-  n++;
-}
-
-for (let i = 1; i <= range; i++) {
-  if (!arr[i]) {
-    console.log(i);
-  }
-}
+// T = int(input())
+// for t in range(T):
+//     n = int(input())
+//     arr = [list(map(int, input().split())) for _ in range(2)]
+//     print(solution(n, arr))
