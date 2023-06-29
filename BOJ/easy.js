@@ -22,39 +22,26 @@
 //     print(solution(n, arr))
 
 const fs = require("fs");
-const [T, ...input] = fs.readFileSync("./sample.txt").toString().split("\n");
+const [a, b] = fs.readFileSync("./sample.txt").toString().split("\n");
 
-function solution(n, arr) {
-  const dp = [...new Array(2)].map((el) => new Array(n).fill(0));
-  for (let i = 0; i < n; i++) {
-    if (i === 0) {
-      dp[0][i] = arr[0][i];
-      dp[1][i] = arr[1][i];
-    } else if (i === 1) {
-      dp[0][i] = dp[1][i - 1] + arr[0][i];
-      dp[1][i] = dp[0][i - 1] + arr[1][i];
-    } else {
-      dp[0][i] = arr[0][i] + Math.max(dp[1][i - 1], dp[0][i - 2], dp[1][i - 2]);
-      dp[1][i] = arr[1][i] + Math.max(dp[0][i - 1], dp[0][i - 2], dp[1][i - 2]);
+function longCommonSubsequence(str1, str2) {
+  if (str1 === str2) {
+    return str1.length;
+  }
+
+  dp = [...new Array(str1.length + 1)].map((el) =>
+    new Array(str2.length + 1).fill(0)
+  );
+  for (let i = 1; i < str1.length + 1; i++) {
+    for (let j = 1; j < str2.length + 1; j++) {
+      if (str1[i - 1] === str2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+      }
     }
   }
-  const max_a = Math.max(...dp[0]);
-  const max_b = Math.max(...dp[1]);
-  const result = Math.max(max_a, max_b);
-  return result;
+  return dp[str1.length][str2.length];
 }
-for (let t = 0; t < +T; t++) {
-  const num = input.shift();
-  const arr = [];
-  const arr1 = input
-    .shift()
-    .split(" ")
-    .map((el) => +el);
-  const arr2 = input
-    .shift()
-    .split(" ")
-    .map((el) => +el);
-  arr.push(arr1);
-  arr.push(arr2);
-  console.log(solution(+num, arr));
-}
+
+console.log(longCommonSubsequence(a, b));
