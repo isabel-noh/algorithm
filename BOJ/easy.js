@@ -1,46 +1,29 @@
 const fs = require("fs");
-const [input, d] = fs.readFileSync("./sample.txt").toString().split("\n");
+const [m, ...input] = fs.readFileSync("./sample.txt").toString().split("\n");
 
-const arr = input.split(" ").map((el) => +el);
+const [k, n] = m.split(" ").map((e) => +e);
+const arr = input.map((e) => +e).sort((a, b) => a - b);
+// k <= n
+// 랜선을 모두 N개의 같은 길이의 랜선으로 만들고 싶었기 때문에 K개의 랜선을 잘라서 만들어야 한다.
+// 최대 랜선의 길이
 
-function solution(a, d) {
-  let total_sec = d;
-  let hour = 0;
-  let minute = 0;
-  let second = 0;
-  while (total_sec > 0) {
-    if (total_sec >= 3600) {
-      hour = Math.floor(total_sec / 3600);
-      total_sec = total_sec % 3600;
-    } else if (total_sec >= 60) {
-      minute = Math.floor(total_sec / 60);
-      total_sec = total_sec % 60;
-    } else {
-      second = total_sec;
-      break;
-    }
+let answer = 0;
+
+let left = 0;
+let right = arr[arr.length - 1];
+
+while (left <= right) {
+  let count = 0;
+  const mid = Math.floor((left + right) / 2);
+  for (let i = 0; i < arr.length; i++) {
+    count += Math.floor(arr[i] / mid);
   }
-  return [hour, minute, second];
+  if (count >= n) {
+    answer = mid;
+    left = mid + 1;
+  } else {
+    right = mid - 1;
+  }
 }
 
-function check(h, m, s) {
-  let hour = h;
-  let minute = m;
-  let second = s;
-  while (hour > 23 || minute > 59 || second > 59) {
-    if (hour > 23) {
-      hour = hour - 24;
-    } else if (minute > 59) {
-      minute = minute - 60;
-      hour += 1;
-    } else if (second > 59) {
-      second = second - 60;
-      minute += 1;
-    }
-  }
-  return [hour, minute, second];
-}
-
-const [hour, minute, second] = solution(arr, +d);
-const [h, m, s] = check(arr[0] + hour, arr[1] + minute, arr[2] + second);
-console.log(h, m, s);
+console.log(answer);
