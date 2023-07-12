@@ -11,6 +11,7 @@ let answer = 0;
 
 let left = 0;
 let right = arr[arr.length - 1];
+console.log(left, right);
 
 while (left <= right) {
   let count = 0;
@@ -18,6 +19,7 @@ while (left <= right) {
   for (let i = 0; i < arr.length; i++) {
     count += Math.floor(arr[i] / mid);
   }
+
   if (count >= n) {
     answer = mid;
     left = mid + 1;
@@ -26,4 +28,4 @@ while (left <= right) {
   }
 }
 
-console.log(answer);
+console.log(right);
