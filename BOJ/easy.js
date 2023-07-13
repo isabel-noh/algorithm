@@ -1,31 +1,7 @@
 const fs = require("fs");
-const [m, ...input] = fs.readFileSync("./sample.txt").toString().split("\n");
-
-const [k, n] = m.split(" ").map((e) => +e);
-const arr = input.map((e) => +e).sort((a, b) => a - b);
-// k <= n
-// 랜선을 모두 N개의 같은 길이의 랜선으로 만들고 싶었기 때문에 K개의 랜선을 잘라서 만들어야 한다.
-// 최대 랜선의 길이
-
-let answer = 0;
-
-let left = 0;
-let right = arr[arr.length - 1];
-console.log(left, right);
-
-while (left <= right) {
-  let count = 0;
-  const mid = Math.floor((left + right) / 2);
-  for (let i = 0; i < arr.length; i++) {
-    count += Math.floor(arr[i] / mid);
-  }
-
-  if (count >= n) {
-    answer = mid;
-    left = mid + 1;
-  } else {
-    right = mid - 1;
-  }
-}
-
-console.log(right);
+// 과자 한 개의 가격이 K, 사려고 하는 과자의 개수가 N이고, 현재 가진 돈의 액수를 M이라 할 때 여러분은 동수가 부모님께 받아야 하는 모자란 돈을 계산하려고 한다.
+const [k, n, m] = fs.readFileSync("./sample.txt").toString().split(" ");
+let mommyYongdon = 0;
+const totalPrice = +k * +n;
+mommyYongdon = totalPrice - +m;
+console.log(mommyYongdon);
