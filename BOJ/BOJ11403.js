@@ -22,7 +22,6 @@ const arr = input.map((el) => el.split(" ").map((e) => +e));
 
 // 가중치 없는 `방향` 그래프
 const adj = [...new Array(N)].map((el) => [...new Array(1)].fill(-1));
-
 for (let i = 0; i < arr.length; i++) {
   for (let j = 0; j < arr[i].length; j++) {
     if (i != j && arr[i][j] == 1) {
@@ -35,4 +34,17 @@ for (let i = 0; i < arr.length; i++) {
   }
 }
 
-for (let i = 0; i < N; i++) {}
+function dfs(cur, v) {
+  for (node of adj[cur]) {
+    if (v[node] === 0) {
+      v[node] = 1;
+      dfs(node, v);
+    }
+  }
+}
+
+for (let i = 0; i < N; i++) {
+  const visited = new Array(N).fill(0);
+  dfs(i, visited);
+  console.log(...visited);
+}
