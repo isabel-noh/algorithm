@@ -23,6 +23,4 @@ function quick_sort(a) {
   }
   return quick_sort(low).concat(pivot, quick_sort(high));
 }
-quick_sort(arr).forEach((element) => {
-  console.log(element);
-});
+console.log(...quick_sort(arr));
