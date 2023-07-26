@@ -15,11 +15,86 @@
 // + 다익스트라 알고리즘을 활용한다.
 
 const fs = require("fs");
+
 const [a, b, ...c] = fs
   .readFileSync("./sample.txt")
   .toString()
   .trim()
   .split("\n");
+class MinHeap {
+  constructor() {
+    this.heap = [];
+  }
+
+  length() {
+    return this.heap.length;
+  }
+
+  getParentIndex(i) {
+    return Math.floor(i / 2);
+  }
+
+  getLeftChildIndex(i) {
+    return i * 2 + 1;
+  }
+
+  getRightChildIndex(i) {
+    return i * 2 + 2;
+  }
+
+  swap(idx1, idx2) {
+    const temp = this.heap[idx1];
+    this.heap[idx1] = this.heap[idx2];
+    this.heap[idx2] = temp;
+  }
+
+  push(val) {
+    // this.heap[this.heap.length] = val;
+    this.heap.push(val);
+    this.heapifyUp();
+  }
+
+  heapifyUp() {
+    let curIdx = this.heap.length - 1;
+    let parIdx = this.getParentIndex(curIdx);
+    if (curIdx < 1) return;
+    while (this.heap[curIdx] < this.heap[parIdx]) {
+      // 부모 값이 더 크면 바꿔
+      this.swap(curIdx, parIdx);
+      curIdx = parIdx;
+    }
+  }
+
+  poll() {
+    if (this.heap === null) {
+      return null;
+    }
+    const min = this.heap[0];
+    this.heap[0] = this.heap[this.heap.length - 1];
+    this.heap.length--;
+    this.heapifyDown();
+    return min;
+  }
+
+  heapifyDown() {
+    let curIdx = 0;
+    let leftChildIndex = this.getLeftChildIndex(curIdx);
+    let rightChildIndex = this.getRightChildIndex(curIdx);
+
+    while (this.heap[leftChildIndex] !== undefined) {
+      let minChildIndex = leftChildIndex;
+      if (this.heap[leftChildIndex] < this.heap[rightChildIndex]) {
+        biggerChild = rightChildIndex;
+      }
+      if (this.heap[curIdx] > this.heap[biggerChild]) {
+        this.swap(curIdx, biggerChild);
+        curIdx = biggerChild;
+      } else {
+        return;
+      }
+    }
+  }
+}
 
 //서로 다른 두 정점 사이에 여러 개의 간선이 존재할 수도 있음
 const [V, E] = a.split(" ").map((num) => +num); // 정점 개수 V, 간선 개수 E // 1 ~ V까지의 정점
@@ -27,47 +102,47 @@ const K = +b; // 시작 정점
 const arr = c.map((e) => e.split(" ").map((el) => +el));
 
 // u에서 v로 가는 가중치 w인 간선
-const adj = [...new Array(V + 1)].map((el) => new Array(1).fill(0));
+const adj = Array.from({ length: V + 1 }, () => []);
 arr.forEach((element) => {
   const [u, v, w] = element;
-  if (adj[u][0] === 0) {
-    adj[u] = [[v, w]];
-  } else {
-    adj[u].push([v, w]);
-  }
+  adj[u].push([v, w]);
 });
-console.log(adj);
 
-function DijkstraAlgorithm(start, distance) {
-  const queue = [[start, 0]]; // 시작점, 거리 0
+function DijkstraAlgorithm(start, distance, visited) {
+  const q = new MinHeap();
+  q.push([start, 0]);
+  // const queue = [[start, 0]]; // 시작점, 거리 0
   // queue에 첫번째로 확인할 값 넣기
-  while (queue.length > 0) {
-    const [u, w] = queue.shift();
+  while (q.heap.length) {
+    // const [u, w] = queue.shift();
+    const [u, w] = q.poll();
+    if (visited[u]) continue;
+    visited[u] = true;
     for (nextNode of adj[u]) {
       // 해당 문제에서 키 포인트!
-      //`K에서부터 다음 노드까지의 최종 거리로 잡혀있는 것이 현재 노드까지의 거리 + 다음노드까지의 거리 보다 크다면 (즉 최단경로가 아니라면) 현재 노드까지의 거리+현재 노드에서부터 다음 노드까지의 거리를 distance에 기록하고, queue에 푸시한다.`
+      //`K에서부터 다음 노드까지의 최종 거리로 잡혀있는 것이 현재 노드까지의 거리 + 다음노드까지의 거리 보다 크다면(즉 최단경로가 아니라면) 현재 노드까지의 거리 + 현재 노드에서부터 다음 노드까지의 거리를 distance에 기록하고, queue에 푸시한다.`
       if (distance[nextNode[0]] > distance[u] + nextNode[1]) {
         distance[nextNode[0]] = distance[u] + nextNode[1];
-        queue.push(nextNode);
+        q.push(nextNode);
       }
     }
   }
 }
-
 // 가중치 방향 그래프
 // 시작점 K에서 다른 모든 정점으로 가는 최단 경로
 // 정점 1, 2, 3, 4, 5
 // 자기 자신으로 가는 경우는 확인 하지 않음
 const distance = [...new Array(V + 1)].fill(Infinity);
+const visited = [...new Array(V + 1)].fill(false);
 distance[K] = 0;
 
-DijkstraAlgorithm(K, distance);
+DijkstraAlgorithm(K, distance, visited);
 
 distance.shift();
 for (let i = 0; i < distance.length; i++) {
   if (distance[i] === Infinity) distance[i] = "INF";
 }
-console.log(...distance);
+console.log(distance.join("\n"));
 
 // #### heapQ
 // 입력으로 들어오는 데이터 개수가 많기 때문에 힙을 사용하지 않으면 시간초과가 난다.
