@@ -1,13 +1,11 @@
 const fs = require("fs");
-let n = fs.readFileSync("./sample.txt").toString().trim();
-let num = +n;
-let cnt = 0;
-while (true) {
-  cnt++;
-  temp = Math.floor(num / 10) + (num % 10);
-  num = (num % 10) * 10 + (temp % 10);
-  if (num === Number(n)) {
-    break;
+const input = fs.readFileSync("./a.txt").toString().trim().split("\n");
+
+for (let i = 0; i < input.length - 1; i++) {
+  const [name, age, weight] = input[i].split(" ");
+  if (age > 17 || weight >= 80) {
+    console.log(name + " Senior");
+  } else {
+    console.log(name + " Junior");
   }
 }
-console.log(cnt);
