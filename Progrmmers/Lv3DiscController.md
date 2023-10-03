@@ -185,3 +185,40 @@ class Heap {
   }
 }
 ```
+
+#### heap을 사용하지 않은 풀이
+
+heap 대신 queue와 sort를 활용한 풀이이다. 내용은 동일하다.
+
+```js
+function solution(jobs) {
+    var answer = 0;
+    let index = 0;
+    let now = 0;
+    let sum = 0;
+    const length = jobs.length;
+
+    jobs.sort((a, b) => a[0]- b[0]);
+
+    const waiting = [];
+
+    while (index < jobs.length || waiting.length > 0) {
+        if (index < jobs.length && now >= jobs[index][0]) {
+            waiting.push(jobs[index]);
+            index += 1;
+
+            waiting.sort((a, b) => a[1] - b[1]); // minHeap 대신 queue에서 a[1], 즉 작업의 소요시간을 기준으로 다시 오름차순으로 정렬
+            continue;
+        }
+        if (!waiting.length) {
+            now = jobs[index][0];
+        } else {
+            const first = waiting.shift();
+            sum += now - first[0] + first[1];
+
+            now += first[1];
+        }
+    }
+
+    answer = Math.floor(sum / length);
+```
