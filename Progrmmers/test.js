@@ -1,25 +1,48 @@
-function solution(players, callings) {
-  var answer = [];
-
-  const playersKeyMap = new Map();
-  const scoreKeyMap = new Map();
-  for (let i = 0; i < players.length; i++) {
-    playersKeyMap.set(players[i], i);
-    scoreKeyMap.set(i, players[i]);
+let unionFinds = [];
+const find = (a) => {
+  if (unionFinds[a] < 0) {
+    return a;
   }
-  console.log(playersKeyMap);
-  console.log(scoreKeyMap);
+  unionFinds[a] = find(unionFinds[a]);
+  return unionFinds[a];
+};
 
-  for (const calling of callings) {
-    const score = playersKeyMap.get(calling); // 이름 부른 사람의 지금 순위
-    playersKeyMap.set(calling, score - 1);
-    const formerName = scoreKeyMap.get(score - 1);
-    playersKeyMap.set(formerName, score);
-    scoreKeyMap.set(score - 1, calling);
-    scoreKeyMap.set(score, formerName);
+const merge = (a, b) => {
+  const fa = find(a);
+  const fb = find(b);
+  if (fa === fb) return;
+
+  unionFinds[fa] += unionFinds[fb];
+  unionFinds[fb] = fa;
+};
+
+function solution(n, wires) {
+  let result = Infinity;
+  const N = wires.length;
+
+  for (let node = 0; node < N; node++) {
+    unionFinds = new Array(n + 1).fill(-1);
+    console.log("unionFinds", unionFinds);
+    const graph = wires.filter((_, i) => i != node); // 줄 끊기
+    console.log(graph);
+
+    for (const [v, w] of graph) merge(v, w);
+    console.log(unionFinds);
+
+    const [a, b] = unionFinds.slice(1).filter((v) => v < 0);
+    console.log("a,b", a, b);
+    result = Math.min(result, Math.abs(a - b));
   }
-  answer = [...scoreKeyMap.values()];
-  return answer;
+  return result;
 }
 
-solution(["mumu", "soe", "poe", "kai", "mine"], ["kai", "kai", "mine", "mine"]);
+solution(9, [
+  [1, 3],
+  [2, 3],
+  [3, 4],
+  [4, 5],
+  [4, 6],
+  [4, 7],
+  [7, 8],
+  [7, 9],
+]);
