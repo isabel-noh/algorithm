@@ -1,5 +1,7 @@
 # Programmers - BFS/DFS - 퍼즐 조각 채우기
 
+[Programmers - BFS/DFS - 퍼즐 조각 채우기](https://school.programmers.co.kr/learn/courses/30/lessons/84021)
+
 ## 제한사항
 
 - 3 ≤ game_board의 행 길이 ≤ 50
