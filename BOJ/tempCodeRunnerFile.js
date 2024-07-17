@@ -1,10 +1,3 @@
 
-if (!check(Number(num.join("")))) {
-  console.log("no");
-  return;
-}
-
-if (!check(rotatedNum)) {
-  console.log("no");
-  return;
-}
+const fs = require("fs");
+const n = +fs.readFileSync("./sample.txt").toString();
